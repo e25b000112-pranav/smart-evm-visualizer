@@ -6,15 +6,9 @@
   <title>AI-Powered Smart EVM & Election Visualization System</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --card-light: #273549;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --accent: #38bdf8;
-      --green: #22c55e;
-      --red: #ef4444;
-      --amber: #f59e0b;
+      --bg: #0f172a; --card: #1e293b; --card-light: #273549;
+      --text: #f8fafc; --muted: #94a3b8; --accent: #38bdf8;
+      --green: #22c55e; --red: #ef4444; --amber: #f59e0b;
     }
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { margin: 0; background: var(--bg); color: var(--text); padding: 18px; }
@@ -31,10 +25,7 @@
       border: 1px solid var(--accent); padding: 6px 12px; border-radius: 20px;
       font-size: 0.82rem; font-weight: 600;
     }
-    .grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-      gap: 18px;
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 18px; }
     .card {
       background: var(--card); border: 1px solid #334155; border-radius: 12px;
       padding: 18px; box-shadow: 0 8px 20px rgba(0,0,0,0.25);
@@ -43,33 +34,23 @@
       margin: 0 0 12px; font-size: 1.1rem; border-bottom: 1px solid #334155;
       padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
     }
-    .led {
-      width: 12px; height: 12px; border-radius: 50%; display: inline-block;
-      background: #475569; box-shadow: 0 0 6px #000;
-    }
+    .led { width: 12px; height: 12px; border-radius: 50%; display: inline-block; background: #475569; }
     .led.green { background: var(--green); box-shadow: 0 0 10px var(--green); }
     .led.red { background: var(--red); box-shadow: 0 0 10px var(--red); }
     .led.amber { background: var(--amber); box-shadow: 0 0 10px var(--amber); }
-
     input, button {
       padding: 10px 12px; border-radius: 8px; border: 1px solid #475569;
       background: #0f172a; color: var(--text); font-size: 0.92rem;
     }
     button { cursor: pointer; font-weight: 600; transition: 0.2s; border: none; }
     .btn-primary { background: var(--accent); color: #0f172a; }
-    .btn-primary:hover { background: #7dd3fc; }
     .btn-green { background: var(--green); color: #052e16; }
-    .btn-green:hover { background: #4ade80; }
     .btn-red { background: var(--red); color: #fff; }
-    .btn-red:hover { background: #f87171; }
     .btn-amber { background: var(--amber); color: #1c1917; }
     .btn-vote { background: #1d4ed8; color: #fff; padding: 8px 16px; border-radius: 20px; }
     .btn-vote:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
-    .btn-vote:not(:disabled):hover { background: #2563eb; transform: scale(1.04); }
-
     .row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
     .row input { flex: 1; min-width: 140px; }
-
     .candidate-row {
       display: flex; align-items: center; justify-content: space-between;
       background: var(--card-light); padding: 10px 14px; border-radius: 10px;
@@ -88,24 +69,17 @@
     .vvpat-slip {
       background: #fef9c3; color: #1e293b; padding: 10px 18px; border-radius: 4px;
       font-family: monospace; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-      animation: slideDown 0.4s ease;
-    }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-15px); }
-      to { opacity: 1; transform: translateY(0); }
     }
     .bar-wrap { margin-bottom: 12px; }
     .bar-label { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 4px; }
     .bar-track { background: #0f172a; height: 14px; border-radius: 8px; overflow: hidden; }
     .bar-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; }
-
     .ai-metric {
       background: #0f172a; padding: 12px; border-radius: 10px; margin-bottom: 10px;
       border-left: 4px solid var(--green);
     }
     .ai-metric.warn { border-left-color: var(--amber); }
     .ai-metric.danger { border-left-color: var(--red); }
-
     .log-box {
       max-height: 170px; overflow-y: auto; background: #0f172a;
       padding: 10px; border-radius: 8px; font-family: monospace; font-size: 0.8rem;
@@ -115,7 +89,6 @@
   </style>
 </head>
 <body>
-
   <header>
     <div>
       <h1>AI-Powered Smart EVM & Election Visualization System</h1>
@@ -126,13 +99,8 @@
 
   <div class="grid">
     <div class="card">
-      <h2>
-        <span>1. Control Unit (Presiding Officer)</span>
-        <span id="cuLed" class="led red" title="Ballot Status"></span>
-      </h2>
-      <p style="font-size:0.84rem; color:var(--muted); margin-top:0;">
-        Valid Demo Voter IDs: <b>V101</b> to <b>V115</b> (or click Auto Next ID)
-      </p>
+      <h2><span>1. Control Unit (Presiding Officer)</span><span id="cuLed" class="led red"></span></h2>
+      <p style="font-size:0.84rem; color:var(--muted); margin-top:0;">Valid Demo Voter IDs: <b>V101</b> to <b>V115</b> (or click Auto Next ID)</p>
       <div class="row">
         <input type="text" id="voterIdInput" placeholder="Enter Voter ID (e.g., V101)" />
         <button class="btn-amber" onclick="quickFillVoter()">Auto Next ID</button>
@@ -142,69 +110,38 @@
         <button class="btn-primary" onclick="simulateBurstAttack()">Simulate Fraud Burst (AI Test)</button>
       </div>
       <div id="cuStatus" class="status-msg" style="color:var(--accent);">Status: Waiting for Voter ID verification...</div>
-
       <hr style="border-color:#334155; margin:14px 0;">
       <div class="row">
         <input type="password" id="adminPin" placeholder="Officer PIN (1234)" />
         <button class="btn-red" onclick="toggleResults()">Declare / Hide Results</button>
       </div>
-      <div style="font-size:0.82rem; color:var(--muted);">
-        Registered Voters: <b>15</b> | Votes Cast: <b id="totalVotesText">0</b> | Turnout: <b id="turnoutText">0%</b>
-      </div>
+      <div style="font-size:0.82rem; color:var(--muted);">Registered Voters: <b>15</b> | Votes Cast: <b id="totalVotesText">0</b> | Turnout: <b id="turnoutText">0%</b></div>
     </div>
 
     <div class="card">
-      <h2>
-        <span>2. Ballot Unit (Voter Booth)</span>
-        <span id="buLed" class="led" title="Ready Lamp"></span>
-      </h2>
-      <p id="buInstruction" style="font-size:0.84rem; color:var(--muted); margin-top:0;">
-        Ballot Unit LOCKED. Officer must verify Voter ID first.
-      </p>
+      <h2><span>2. Ballot Unit (Voter Booth)</span><span id="buLed" class="led"></span></h2>
+      <p id="buInstruction" style="font-size:0.84rem; color:var(--muted); margin-top:0;">Ballot Unit LOCKED. Officer must verify Voter ID first.</p>
       <div id="candidateList"></div>
-
       <h3 style="font-size:0.95rem; margin:14px 0 8px;">3. VVPAT Paper Audit Trail</h3>
-      <div class="vvpat-box" id="vvpatBox">
-        <span style="color:var(--muted); font-size:0.85rem;">VVPAT Window Idle — Printed slip appears for 5s after vote</span>
-      </div>
+      <div class="vvpat-box" id="vvpatBox"><span style="color:var(--muted); font-size:0.85rem;">VVPAT Window Idle — Printed slip appears for 5s after vote</span></div>
     </div>
 
     <div class="card">
-      <h2>
-        <span>4. AI/ML Anomaly & Fraud Detection</span>
-        <span id="aiLed" class="led green"></span>
-      </h2>
+      <h2><span>4. AI/ML Anomaly & Fraud Detection</span><span id="aiLed" class="led green"></span></h2>
       <div id="aiRiskCard" class="ai-metric">
-        <div style="display:flex; justify-content:space-between;">
-          <strong>AI Booth Integrity Risk Score:</strong>
-          <strong id="riskScoreText">5% (Normal)</strong>
-        </div>
-        <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;" id="aiReasonText">
-          ML Model: Isolation-based Z-Score & Velocity Check active. No anomalies detected.
-        </div>
+        <div style="display:flex; justify-content:space-between;"><strong>AI Booth Integrity Risk Score:</strong><strong id="riskScoreText">5% (Normal)</strong></div>
+        <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;" id="aiReasonText">ML Model: Isolation-based Z-Score & Velocity Check active. No anomalies detected.</div>
       </div>
-
       <div class="ai-metric" style="border-left-color: var(--accent);">
-        <div style="display:flex; justify-content:space-between;">
-          <strong>AI Projected Winner & Momentum:</strong>
-          <strong id="aiPredictionText">Awaiting Data...</strong>
-        </div>
-        <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;" id="aiConfidenceText">
-          Bayesian Vote-Share Estimator ready.
-        </div>
+        <div style="display:flex; justify-content:space-between;"><strong>AI Projected Winner & Momentum:</strong><strong id="aiPredictionText">Awaiting Data...</strong></div>
+        <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;" id="aiConfidenceText">Bayesian Vote-Share Estimator ready.</div>
       </div>
-
       <h3 style="font-size:0.95rem; margin:12px 0 6px;">Live Cryptographic Audit Log</h3>
-      <div class="log-box" id="auditLog">
-        <div class="log-entry">[SYSTEM] EVM & AI Anomaly Engine initialized.</div>
-      </div>
+      <div class="log-box" id="auditLog"><div class="log-entry">[SYSTEM] EVM & AI Anomaly Engine initialized.</div></div>
     </div>
 
     <div class="card">
-      <h2>
-        <span>5. Real-Time Vote Visualization</span>
-        <button class="btn-primary" style="padding:4px 10px; font-size:0.78rem;" onclick="exportCSV()">Export CSV</button>
-      </h2>
+      <h2><span>5. Real-Time Vote Visualization</span><button class="btn-primary" style="padding:4px 10px; font-size:0.78rem;" onclick="exportCSV()">Export CSV</button></h2>
       <div id="chartContainer"></div>
       <div id="winnerBanner" style="display:none; margin-top:14px; padding:12px; border-radius:8px; background:rgba(34,197,94,0.18); border:1px solid var(--green); text-align:center;"></div>
     </div>
@@ -217,6 +154,24 @@
       { id: 3, name: "Rohan Patil", party: "National Unity Front", symbol: "🦁", color: "#f59e0b", votes: 0 },
       { id: 4, name: "NOTA", party: "None of the Above", symbol: "🚫", color: "#94a3b8", votes: 0 }
     ];
-
     const validVoters = new Set(["V101","V102","V103","V104","V105","V106","V107","V108","V109","V110","V111","V112","V113","V114","V115"]);
     const votedVoters = new Set();
+    let ballotEnabled = false, currentVoter = null, resultsRevealed = false, duplicateAttempts = 0;
+    let voteTimestamps = [];
+
+    function playBeep() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        osc.type = "sine"; osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + 0.35);
+      } catch (e) {}
+    }
+
+    function addLog(msg) {
+      const time = new Date().toLocaleTimeString();
+      document.getElementById("auditLog").innerHTML = `<div class="log-entry">[${time}] ${msg}</div>` + document.getElementById("auditLog").innerHTML;
+    }
+
+    function quickFillVoter() {
+      for (let v of validVoters) {
