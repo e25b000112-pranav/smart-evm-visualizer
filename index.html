@@ -55,9 +55,7 @@
       padding: 10px 12px; border-radius: 8px; border: 1px solid #475569;
       background: #0f172a; color: var(--text); font-size: 0.92rem;
     }
-    button {
-      cursor: pointer; font-weight: 600; transition: 0.2s; border: none;
-    }
+    button { cursor: pointer; font-weight: 600; transition: 0.2s; border: none; }
     .btn-primary { background: var(--accent); color: #0f172a; }
     .btn-primary:hover { background: #7dd3fc; }
     .btn-green { background: var(--green); color: #052e16; }
@@ -65,9 +63,7 @@
     .btn-red { background: var(--red); color: #fff; }
     .btn-red:hover { background: #f87171; }
     .btn-amber { background: var(--amber); color: #1c1917; }
-    .btn-vote {
-      background: #1d4ed8; color: #fff; padding: 8px 16px; border-radius: 20px;
-    }
+    .btn-vote { background: #1d4ed8; color: #fff; padding: 8px 16px; border-radius: 20px; }
     .btn-vote:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
     .btn-vote:not(:disabled):hover { background: #2563eb; transform: scale(1.04); }
 
@@ -98,14 +94,11 @@
       from { opacity: 0; transform: translateY(-15px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    /* Visualization Bars */
     .bar-wrap { margin-bottom: 12px; }
     .bar-label { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 4px; }
     .bar-track { background: #0f172a; height: 14px; border-radius: 8px; overflow: hidden; }
     .bar-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; }
 
-    /* AI Risk Meter */
     .ai-metric {
       background: #0f172a; padding: 12px; border-radius: 10px; margin-bottom: 10px;
       border-left: 4px solid var(--green);
@@ -132,14 +125,13 @@
   </header>
 
   <div class="grid">
-    <!-- 1. CONTROL UNIT (OFFICER PANEL) -->
     <div class="card">
       <h2>
         <span>1. Control Unit (Presiding Officer)</span>
         <span id="cuLed" class="led red" title="Ballot Status"></span>
       </h2>
       <p style="font-size:0.84rem; color:var(--muted); margin-top:0;">
-        Valid Demo Voter IDs: <b>V101</b> to <b>V115</b> (or click Quick Fill)
+        Valid Demo Voter IDs: <b>V101</b> to <b>V115</b> (or click Auto Next ID)
       </p>
       <div class="row">
         <input type="text" id="voterIdInput" placeholder="Enter Voter ID (e.g., V101)" />
@@ -161,7 +153,6 @@
       </div>
     </div>
 
-    <!-- 2. BALLOT UNIT (VOTER PANEL) -->
     <div class="card">
       <h2>
         <span>2. Ballot Unit (Voter Booth)</span>
@@ -178,7 +169,6 @@
       </div>
     </div>
 
-    <!-- 3. AI/ML FRAUD & ANOMALY DETECTION -->
     <div class="card">
       <h2>
         <span>4. AI/ML Anomaly & Fraud Detection</span>
@@ -210,7 +200,6 @@
       </div>
     </div>
 
-    <!-- 4. LIVE VISUALIZATION & RESULTS -->
     <div class="card">
       <h2>
         <span>5. Real-Time Vote Visualization</span>
@@ -226,3 +215,8 @@
       { id: 1, name: "Aarav Deshmukh", party: "Progressive Tech Party", symbol: "🚀", color: "#38bdf8", votes: 0 },
       { id: 2, name: "Sneha Kulkarni", party: "Green Future Alliance", symbol: "🌿", color: "#22c55e", votes: 0 },
       { id: 3, name: "Rohan Patil", party: "National Unity Front", symbol: "🦁", color: "#f59e0b", votes: 0 },
+      { id: 4, name: "NOTA", party: "None of the Above", symbol: "🚫", color: "#94a3b8", votes: 0 }
+    ];
+
+    const validVoters = new Set(["V101","V102","V103","V104","V105","V106","V107","V108","V109","V110","V111","V112","V113","V114","V115"]);
+    const votedVoters = new Set();
