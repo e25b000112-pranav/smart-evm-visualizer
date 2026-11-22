@@ -91,10 +91,10 @@
 <body>
   <header>
     <div>
-      <h1>AI-Powered Smart EVM & Election Visualization System</h1>
-      <p>Interactive Electronic Voting Machine Simulator with Real-Time ML Anomaly Detection & Turnout Analytics</p>
+      <h1>AI-Powered Smart EVM &amp; Election Visualization System</h1>
+      <p>Interactive Electronic Voting Machine Simulator with Real-Time ML Anomaly Detection &amp; Turnout Analytics</p>
     </div>
-    <div class="badge">AIML Mini Project • Software Visualization</div>
+    <div class="badge">AIML Mini Project &bull; Software Visualization</div>
   </header>
 
   <div class="grid">
@@ -106,7 +106,7 @@
         <button class="btn-amber" onclick="quickFillVoter()">Auto Next ID</button>
       </div>
       <div class="row">
-        <button class="btn-green" onclick="verifyAndEnableBallot()">Verify ID & Enable Ballot</button>
+        <button class="btn-green" onclick="verifyAndEnableBallot()">Verify ID &amp; Enable Ballot</button>
         <button class="btn-primary" onclick="simulateBurstAttack()">Simulate Fraud Burst (AI Test)</button>
       </div>
       <div id="cuStatus" class="status-msg" style="color:var(--accent);">Status: Waiting for Voter ID verification...</div>
@@ -123,21 +123,21 @@
       <p id="buInstruction" style="font-size:0.84rem; color:var(--muted); margin-top:0;">Ballot Unit LOCKED. Officer must verify Voter ID first.</p>
       <div id="candidateList"></div>
       <h3 style="font-size:0.95rem; margin:14px 0 8px;">3. VVPAT Paper Audit Trail</h3>
-      <div class="vvpat-box" id="vvpatBox"><span style="color:var(--muted); font-size:0.85rem;">VVPAT Window Idle — Printed slip appears for 5s after vote</span></div>
+      <div class="vvpat-box" id="vvpatBox"><span style="color:var(--muted); font-size:0.85rem;">VVPAT Window Idle &mdash; Printed slip appears for 5s after vote</span></div>
     </div>
 
     <div class="card">
-      <h2><span>4. AI/ML Anomaly & Fraud Detection</span><span id="aiLed" class="led green"></span></h2>
+      <h2><span>4. AI/ML Anomaly &amp; Fraud Detection</span><span id="aiLed" class="led green"></span></h2>
       <div id="aiRiskCard" class="ai-metric">
         <div style="display:flex; justify-content:space-between;"><strong>AI Booth Integrity Risk Score:</strong><strong id="riskScoreText">5% (Normal)</strong></div>
-        <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;" id="aiReasonText">ML Model: Isolation-based Z-Score & Velocity Check active. No anomalies detected.</div>
+        <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;" id="aiReasonText">ML Model: Isolation-based Z-Score &amp; Velocity Check active. No anomalies detected.</div>
       </div>
       <div class="ai-metric" style="border-left-color: var(--accent);">
-        <div style="display:flex; justify-content:space-between;"><strong>AI Projected Winner & Momentum:</strong><strong id="aiPredictionText">Awaiting Data...</strong></div>
+        <div style="display:flex; justify-content:space-between;"><strong>AI Projected Winner &amp; Momentum:</strong><strong id="aiPredictionText">Awaiting Data...</strong></div>
         <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;" id="aiConfidenceText">Bayesian Vote-Share Estimator ready.</div>
       </div>
       <h3 style="font-size:0.95rem; margin:12px 0 6px;">Live Cryptographic Audit Log</h3>
-      <div class="log-box" id="auditLog"><div class="log-entry">[SYSTEM] EVM & AI Anomaly Engine initialized.</div></div>
+      <div class="log-box" id="auditLog"><div class="log-entry">(SYSTEM) EVM &amp; AI Anomaly Engine initialized.</div></div>
     </div>
 
     <div class="card">
@@ -148,16 +148,16 @@
   </div>
 
   <script>
-    const candidates = [
+    const candidates = Array.of(
       { id: 1, name: "Aarav Deshmukh", party: "Progressive Tech Party", symbol: "🚀", color: "#38bdf8", votes: 0 },
       { id: 2, name: "Sneha Kulkarni", party: "Green Future Alliance", symbol: "🌿", color: "#22c55e", votes: 0 },
       { id: 3, name: "Rohan Patil", party: "National Unity Front", symbol: "🦁", color: "#f59e0b", votes: 0 },
       { id: 4, name: "NOTA", party: "None of the Above", symbol: "🚫", color: "#94a3b8", votes: 0 }
-    ];
-    const validVoters = new Set(["V101","V102","V103","V104","V105","V106","V107","V108","V109","V110","V111","V112","V113","V114","V115"]);
+    );
+    const validVoters = new Set(Array.of("V101","V102","V103","V104","V105","V106","V107","V108","V109","V110","V111","V112","V113","V114","V115"));
     const votedVoters = new Set();
     let ballotEnabled = false, currentVoter = null, resultsRevealed = false, duplicateAttempts = 0;
-    let voteTimestamps = [];
+    let voteTimestamps = Array.of();
 
     function playBeep() {
       try {
@@ -170,8 +170,5 @@
 
     function addLog(msg) {
       const time = new Date().toLocaleTimeString();
-      document.getElementById("auditLog").innerHTML = `<div class="log-entry">[${time}] ${msg}</div>` + document.getElementById("auditLog").innerHTML;
+      document.getElementById("auditLog").innerHTML = `<div class="log-entry">(${time}) ${msg}</div>` + document.getElementById("auditLog").innerHTML;
     }
-
-    function quickFillVoter() {
-      for (let v of validVoters) {
