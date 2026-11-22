@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Powered Smart EVM & Election Visualization System</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-light: #273549;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --green: #22c55e;
+      --red: #ef4444;
+      --amber: #f59e0b;
+    }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text); padding: 18px; }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      padding: 16px 24px; border-radius: 12px; border: 1px solid #334155;
+      margin-bottom: 18px; flex-wrap: wrap; gap: 10px;
+    }
+    header h1 { margin: 0; font-size: 1.4rem; color: var(--accent); }
+    header p { margin: 4px 0 0; font-size: 0.88rem; color: var(--muted); }
+    .badge {
+      background: rgba(56, 189, 248, 0.15); color: var(--accent);
+      border: 1px solid var(--accent); padding: 6px 12px; border-radius: 20px;
+      font-size: 0.82rem; font-weight: 600;
+    }
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: var(--card); border: 1px solid #334155; border-radius: 12px;
+      padding: 18px; box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+    .card h2 {
+      margin: 0 0 12px; font-size: 1.1rem; border-bottom: 1px solid #334155;
+      padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .led {
+      width: 12px; height: 12px; border-radius: 50%; display: inline-block;
+      background: #475569; box-shadow: 0 0 6px #000;
+    }
+    .led.green { background: var(--green); box-shadow: 0 0 10px var(--green); }
+    .led.red { background: var(--red); box-shadow: 0 0 10px var(--red); }
+    .led.amber { background: var(--amber); box-shadow: 0 0 10px var(--amber); }
+
+    input, select, button {
+      padding: 10px 12px; border-radius: 8px; border: 1px solid #475569;
+      background: #0f172a; color: var(--text); font-size: 0.92rem;
+    }
+    button {
+      cursor: pointer; font-weight: 600; transition: 0.2s; border: none;
+    }
+    .btn-primary { background: var(--accent); color: #0f172a; }
+    .btn-primary:hover { background: #7dd3fc; }
+    .btn-green { background: var(--green); color: #052e16; }
+    .btn-green:hover { background: #4ade80; }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-red:hover { background: #f87171; }
+    .btn-amber { background: var(--amber); color: #1c1917; }
+    .btn-vote {
+      background: #1d4ed8; color: #fff; padding: 8px 16px; border-radius: 20px;
+    }
+    .btn-vote:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+    .btn-vote:not(:disabled):hover { background: #2563eb; transform: scale(1.04); }
+
+    .row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+    .row input { flex: 1; min-width: 140px; }
+
+    .candidate-row {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--card-light); padding: 10px 14px; border-radius: 10px;
+      margin-bottom: 10px; border: 1px solid #334155;
+    }
+    .cand-info { display: flex; align-items: center; gap: 12px; }
+    .symbol {
+      font-size: 1.5rem; background: #0f172a; width: 42px; height: 42px;
+      display: flex; align-items: center; justify-content: center; border-radius: 8px;
+    }
+    .vvpat-box {
+      background: #0f172a; border: 2px dashed #475569; border-radius: 10px;
+      padding: 14px; text-align: center; min-height: 115px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .vvpat-slip {
+      background: #fef9c3; color: #1e293b; padding: 10px 18px; border-radius: 4px;
+      font-family: monospace; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      animation: slideDown 0.4s ease;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Visualization Bars */
+    .bar-wrap { margin-bottom: 12px; }
+    .bar-label { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 4px; }
+    .bar-track { background: #0f172a; height: 14px; border-radius: 8px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; }
+
+    /* AI Risk Meter */
+    .ai-metric {
+      background: #0f172a; padding: 12px; border-radius: 10px; margin-bottom: 10px;
+      border-left: 4px solid var(--green);
+    }
+    .ai-metric.warn { border-left-color: var(--amber); }
+    .ai-metric.danger { border-left-color: var(--red); }
+
+    .log-box {
+      max-height: 170px; overflow-y: auto; background: #0f172a;
+      padding: 10px; border-radius: 8px; font-family: monospace; font-size: 0.8rem;
+    }
+    .log-entry { padding: 4px 0; border-bottom: 1px solid #1e293b; }
+    .status-msg { font-size: 0.86rem; margin-top: 6px; min-height: 20px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>AI-Powered Smart EVM & Election Visualization System</h1>
+      <p>Interactive Electronic Voting Machine Simulator with Real-Time ML Anomaly Detection & Turnout Analytics</p>
+    </div>
+    <div class="badge">AIML Mini Project • Software Visualization</div>
+  </header>
+
+  <div class="grid">
+    <!-- 1. CONTROL UNIT (OFFICER PANEL) -->
+    <div class="card">
+      <h2>
+        <span>1. Control Unit (Presiding Officer)</span>
+        <span id="cuLed" class="led red" title="Ballot Status"></span>
+      </h2>
+      <p style="font-size:0.84rem; color:var(--muted); margin-top:0;">
+        Valid Demo Voter IDs: <b>V101</b> to <b>V115</b> (or click Quick Fill)
+      </p>
+      <div class="row">
+        <input type="text" id="voterIdInput" placeholder="Enter Voter ID (e.g., V101)" />
+        <button class="btn-amber" onclick="quickFillVoter()">Auto Next ID</button>
+      </div>
+      <div class="row">
+        <button class="btn-green" onclick="verifyAndEnableBallot()">Verify ID & Enable Ballot</button>
+        <button class="btn-primary" onclick="simulateBurstAttack()">Simulate Fraud Burst (AI Test)</button>
+      </div>
+      <div id="cuStatus" class="status-msg" style="color:var(--accent);">Status: Waiting for Voter ID verification...</div>
+
+      <hr style="border-color:#334155; margin:14px 0;">
+      <div class="row">
+        <input type="password" id="adminPin" placeholder="Officer PIN (1234)" />
+        <button class="btn-red" onclick="toggleResults()">Declare / Hide Results</button>
+      </div>
+      <div style="font-size:0.82rem; color:var(--muted);">
+        Registered Voters: <b>15</b> | Votes Cast: <b id="totalVotesText">0</b> | Turnout: <b id="turnoutText">0%</b>
+      </div>
+    </div>
+
+    <!-- 2. BALLOT UNIT (VOTER PANEL) -->
+    <div class="card">
+      <h2>
+        <span>2. Ballot Unit (Voter Booth)</span>
+        <span id="buLed" class="led" title="Ready Lamp"></span>
+      </h2>
+      <p id="buInstruction" style="font-size:0.84rem; color:var(--muted); margin-top:0;">
+        Ballot Unit LOCKED. Officer must verify Voter ID first.
+      </p>
+      <div id="candidateList"></div>
+
+      <h3 style="font-size:0.95rem; margin:14px 0 8px;">3. VVPAT Paper Audit Trail</h3>
+      <div class="vvpat-box" id="vvpatBox">
+        <span style="color:var(--muted); font-size:0.85rem;">VVPAT Window Idle — Printed slip appears for 5s after vote</span>
+      </div>
+    </div>
+
+    <!-- 3. AI/ML FRAUD & ANOMALY DETECTION -->
+    <div class="card">
+      <h2>
+        <span>4. AI/ML Anomaly & Fraud Detection</span>
+        <span id="aiLed" class="led green"></span>
+      </h2>
+      <div id="aiRiskCard" class="ai-metric">
+        <div style="display:flex; justify-content:space-between;">
+          <strong>AI Booth Integrity Risk Score:</strong>
+          <strong id="riskScoreText">5% (Normal)</strong>
+        </div>
+        <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;" id="aiReasonText">
+          ML Model: Isolation-based Z-Score & Velocity Check active. No anomalies detected.
+        </div>
+      </div>
+
+      <div class="ai-metric" style="border-left-color: var(--accent);">
+        <div style="display:flex; justify-content:space-between;">
+          <strong>AI Projected Winner & Momentum:</strong>
+          <strong id="aiPredictionText">Awaiting Data...</strong>
+        </div>
+        <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;" id="aiConfidenceText">
+          Bayesian Vote-Share Estimator ready.
+        </div>
+      </div>
+
+      <h3 style="font-size:0.95rem; margin:12px 0 6px;">Live Cryptographic Audit Log</h3>
+      <div class="log-box" id="auditLog">
+        <div class="log-entry">[SYSTEM] EVM & AI Anomaly Engine initialized.</div>
+      </div>
+    </div>
+
+    <!-- 4. LIVE VISUALIZATION & RESULTS -->
+    <div class="card">
+      <h2>
+        <span>5. Real-Time Vote Visualization</span>
+        <button class="btn-primary" style="padding:4px 10px; font-size:0.78rem;" onclick="exportCSV()">Export CSV</button>
+      </h2>
+      <div id="chartContainer"></div>
+      <div id="winnerBanner" style="display:none; margin-top:14px; padding:12px; border-radius:8px; background:rgba(34,197,94,0.18); border:1px solid var(--green); text-align:center;"></div>
+    </div>
+  </div>
+
+  <script>
+    const candidates = [
+      { id: 1, name: "Aarav Deshmukh", party: "Progressive Tech Party", symbol: "🚀", color: "#38bdf8", votes: 0 },
+      { id: 2, name: "Sneha Kulkarni", party: "Green Future Alliance", symbol: "🌿", color: "#22c55e", votes: 0 },
+      { id: 3, name: "Rohan Patil", party: "National Unity Front", symbol: "🦁", color: "#f59e0b", votes: 0 },
